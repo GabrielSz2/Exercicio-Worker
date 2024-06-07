@@ -7,6 +7,7 @@ import java.util.Locale;
 import java.util.Scanner;
 
 import entities.Department;
+import entities.HourContract;
 import entities.Worker;
 import entities.enums.WorkerLevel;
 
@@ -19,7 +20,7 @@ public class Main {
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		
-		System.out.println("Enter the department's name: ");
+		System.out.print("Enter the department's name: ");
 		String department = sc.nextLine();
 		System.out.println("Enter worker data: ");
 		System.out.print("name: ");
@@ -30,11 +31,13 @@ public class Main {
 		Double baseSalary = sc.nextDouble();
 		
 		Worker worker = new Worker(workerName, WorkerLevel.valueOf(workerLevel), baseSalary, new Department (department));
+		System.out.println();
 		
 		System.out.print("How many contracts to this worker: ");
 		int n = sc.nextInt();
 		
 		for (int i = 0; i < n; i++){
+			System.out.println();
 			System.out.println("Enter the contract #" + (1+i) + " data:");
 			System.out.print("Date (DD/MM/YYYY): ");
 			Date contractDate = sdf.parse(sc.next());
@@ -42,7 +45,21 @@ public class Main {
 			Double valuePerHour = sc.nextDouble();
 			System.out.print("Duracion (Hours): ");
 			Integer hours = sc.nextInt();
+			
+			HourContract contract = new HourContract(contractDate, valuePerHour, hours);
+			worker.addContract(contract);
 		}
+		
+		System.out.println();
+		
+		System.out.print("Enter month and year to calculate income (MM/YYYY): ");
+		String monthAndYear = sc.next();
+		int month = Integer.parseInt(monthAndYear.substring(0, 2));		
+		int year = Integer.parseInt(monthAndYear.substring(3));
+		System.out.println("name: " + worker.getName());
+		System.out.println("department: " + worker.getDepartment().getName());
+		System.out.println("income for " + month + "/" + year + ": " + worker.income(year, month));
+		
 		
 	
 		sc.close();

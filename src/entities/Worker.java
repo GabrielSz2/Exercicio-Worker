@@ -80,5 +80,5 @@ public class Worker {
 		return sum;
 	}
 	
-
+	
 }
